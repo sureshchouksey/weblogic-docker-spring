@@ -29,7 +29,7 @@ pipeline {
                 //bat ("docker stop spring${env.BRANCH_NAME}${currentBuild.number}")
                 //bat ("docker rm spring${env.BRANCH_NAME}${currentBuild.number}")
                 sh ("docker run --name weblogic${env.BRANCH_NAME}${currentBuild.number} -d -p 7001 ramana152/weblogic:11g")
-                sh ("docker cp /var/lib/jenkins/workspace/weblogic-multibranch_master/gameoflife-web/target/websocket-demo-0.0.1-SNAPSHOT.war weblogic${env.BRANCH_NAME}${currentBuild.number}:/u01/oracle/weblogic/user_projects/domains/base_domain/autodeploy")
+                sh ("docker cp /var/lib/jenkins/workspace/weblogic-multibranch_master/gameoflife-web/target/gameoflife.war weblogic${env.BRANCH_NAME}${currentBuild.number}:/u01/oracle/weblogic/user_projects/domains/base_domain/autodeploy")
             }
         }
 
