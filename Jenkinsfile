@@ -9,12 +9,18 @@ def  weblogicPortNumber = 'Unknown'
 pipeline {    
     agent any
     stages {
-        stage ('Build Docker') {
-            steps {
-                sh 'docker pull ashishfulcrum/weblogic_server:11g'
+        
+        stage ('Clone') {
+
+            steps {                
+                    sh 'mvn clean install -Dmaven.test.skip=true'
             }
         }
-
+        stage ('Build Docker') {
+            steps {
+                sh 'docker pull ramana152/weblogic:11g'
+            }
+        }
         stage ('Run Docker') {
             
             steps {
@@ -22,7 +28,8 @@ pipeline {
                 echo "${currentBuild.number}"
                 //bat ("docker stop spring${env.BRANCH_NAME}${currentBuild.number}")
                 //bat ("docker rm spring${env.BRANCH_NAME}${currentBuild.number}")
-                sh ("docker run --name weblogic${env.BRANCH_NAME}${currentBuild.number} -d -p 7001 ashishfulcrum/weblogic_server:11g")
+                sh ("docker run --name weblogic${env.BRANCH_NAME}${currentBuild.number} -d -p 7001 ramana152/weblogic:11g")
+                sh ("docker cp /var/lib/jenkins/workspace/weblogic-multibranch_master/gameoflife-web/target/websocket-demo-0.0.1-SNAPSHOT.war weblogic${env.BRANCH_NAME}${currentBuild.number}:/u01/oracle/weblogic/user_projects/domains/base_domain/autodeploy")
             }
         }
 
