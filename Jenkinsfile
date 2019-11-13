@@ -20,7 +20,8 @@ pipeline {
             steps {
                 sh 'docker pull ramana152/weblogic:11g'
             }
-        }
+        }        
+        
         stage ('Run Docker') {
             
             steps {
